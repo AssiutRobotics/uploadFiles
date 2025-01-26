@@ -4,7 +4,7 @@ const memberControler = require("../controler/member.controler");
 const JWT = require("../middlleware/jwt");
 const Router = express.Router();
 const multer = require("multer");
-const otp = require("../utils/otp");
+
 
 
 
@@ -45,7 +45,7 @@ const { uploadToCloud } = require("../utils/cloudinary");
 
 const diskStorage = multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, "public/"); // Save locally before uploading to Cloudinary
+            cb(null, "uploads/"); // Save locally before uploading to Cloudinary
         },
         filename: (req, file, cb) => {
             const ext = file.mimetype.split("/")[1];
@@ -71,41 +71,6 @@ const diskStorage = multer.diskStorage({
     });
     
 
-Router.route("/register").post(memberControler.register);
-
-Router.route("/verifyEmail/:token").get(
-        JWT.verify,
-        memberControler.verifyEmail
-);
-
-Router.route("/getAllMembers").get(memberControler.getAllMembers);
-
-Router.route("/login").post(memberControler.login);
-
-Router.route("/verify").get(JWT.verify, memberControler.verify);
-// Router.route("/verify").post(JWT.verify, memberControler.verify);
-
-Router.route("/confirm").post(JWT.verify, memberControler.confirm);
-
-Router.route("/generateOTP").post(memberControler.generateOTP);
-
-Router.route("/verifyOTP").post(memberControler.verifyOTP);
-
-Router.route("/changePassword").post(memberControler.changePass);
-
-Router.route("/changeHead").post(JWT.verify, memberControler.changeHead);
-
-Router.route("/hr").post(JWT.verify, memberControler.controleHR);
-
-
-
-Router.route("/verifyOTP").post(otp.verifyOtp);
-
-Router.route("/changePass").post(memberControler.changePass);
-
-
-Router.route("/rate").post(JWT.verify,memberControler.rate);
-
 Router.route("/changeProfileImage").post(
         upload.single("image"), 
         async (req, res,next) => {
@@ -121,7 +86,7 @@ Router.route("/changeProfileImage").post(
                 const filePath = __dirname+'../public/'+req.file.path; 
                 console.log(filePath);
                 
-                const imageUrl = await uploadToCloud(filePath); // Passing the file path to Cloudinary
+                const imageUrl = await uploadToCloud(req.file.filePath); // Passing the file path to Cloudinary
                 req.imageUrl=imageUrl;
                 console.log("uploaded to cloudinary");
                 
