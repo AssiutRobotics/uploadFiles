@@ -54,7 +54,7 @@ Router.route("/add").post(
             res.status(500).json({ message: 'Error uploading image', error });
         }
     },
-    componentControler.addComponent 
+    componentControler.addComponent  
 );
 Router.route("/getComponents").get(componentControler.getCombonent);
 
