@@ -33,16 +33,7 @@ app.use("/members",memberRouter);
 app.use('/blogs',blogRouter);
 app.use('/components',componentRouter);
 app.get("/",async (req,res)=>{    
-  try{
-    const members=await members.findBycommittee(req.params.committee);
-  
-  if(!committee){
-       return res.status(404).json({msg:"committee not found"})
-  }
-  res.json(members);
-  }catch(err){
-    return res.status(400).json({msg: "error"})
-  }
+      res.status(200).json({status:"success",message:"server is runninng..."})
 })
 
 
