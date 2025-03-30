@@ -40,7 +40,7 @@ Router.route("/add").post(
         try {
             if (!req.file) {
                 return res.status(400).send('No file uploaded.');
-            }
+            } 
 
             // Upload image to Cloudinary using the utility function
             const imageUrl = await uploadToCloud(req.file.path); // Passing the file path to Cloudinary
